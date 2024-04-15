@@ -3,16 +3,15 @@ library(ggplot2)
 library(tidyverse)
 
 data <- read.csv("nowac-raw-tokens-consonant-clusters.csv")
-head(data)
+
 data <- data %>% 
-  rename(onset = X)
   arrange(desc(frequency)) %>% 
   mutate(logf = log10(frequency)) %>% 
   mutate(rank = row_number()) %>%
   mutate(logr = log10(rank)) %>%
   mutate(zipf = log10((frequency/sum(frequency))*1000000000)) %>%
   mutate(length = nchar(X))
-data
+
 ggplot(data, aes(x = logr, y = zipf)) +
   geom_point()
 
